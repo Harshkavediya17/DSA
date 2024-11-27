@@ -1,0 +1,207 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+int count1=0,count2=0,s=3;
+typedef struct node
+{
+    int data;
+    struct node *link;
+}NODE;
+NODE *head=NULL,*head1=NULL;
+
+NODE* createnode()
+{
+    int a;
+    NODE *ptr=  (NODE*)malloc(sizeof(NODE));
+    printf("Enter data : ");
+    scanf("%d",&a);
+    if(ptr==NULL)
+    {
+        printf("Memory not allocated");
+    }
+    else
+    {
+        ptr->data=a;
+        ptr->link=NULL;
+    }
+    return ptr;
+}
+void push()
+{
+     if(count1==s)
+    {
+        printf("\nStack Overflow");
+        return;
+    }
+    NODE *ptr=createnode();
+    if(head==NULL)
+    {
+        head=ptr;
+        count1++;
+        return;
+    }
+    NODE *temp=head;
+    while(temp->link!=NULL)
+    {
+        temp=temp->link;
+    }
+    temp->link=ptr;
+    count1++;
+}
+void pop()
+{
+    if(count1==0)
+    {
+        printf("\nStack Underflow");
+        return;
+    }
+    NODE *temp=head;
+    NODE *prev;
+    if(head->link==NULL)
+    {
+        free(head);
+        head=NULL;
+        count1--;
+        return;
+    }
+    while(temp->link!=NULL)
+    {
+        prev=temp;
+        temp=temp->link;
+    }
+    free(temp);
+    prev->link=NULL;
+    count1--;
+}
+void display()
+{
+    NODE *temp;
+    temp=head;
+    if(head==NULL)
+    {
+        printf("List is empty\n");
+        return;
+    }
+    else
+    {
+        printf("List elements are : ");
+    }
+    while(temp!=NULL)
+    {
+        printf("%d\t",temp->data);
+        temp = temp->link;
+    }
+}
+void stack()
+{
+    int choice=0;
+    while(choice<=4)
+    {
+        printf("\nSTACK IMPLEMENTATION\n1.PUSH\n2.POP\n3.DISPLAY\n4.EXIT\nENTER CHOICE : ");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1: push();
+                    break;
+            case 2: pop();
+                    break;
+            case 3: display();
+                    break;
+            case 4: return;
+        }
+    }
+   
+}
+void enqueue()
+{
+    if(count2==s)
+    {
+        printf("\nQueue Overflow");
+        return;
+    }
+    NODE *ptr=createnode();
+    if(head1==NULL)
+    {
+        head1=ptr;
+        count2++;
+        return;
+    }
+    NODE *temp=head1;
+    while(temp->link!=NULL)
+    {
+        temp=temp->link;
+    }
+    temp->link=ptr;
+    count2++;
+}
+void dequeue()
+{
+    if(head1==NULL)
+    {
+        printf("\nQueue Underflow");
+        return;
+    }
+    NODE *prev=head1;
+    head1=head1->link;
+    free(prev);
+    prev=head1;
+    count2--;
+}
+void display1()
+{
+    NODE *temp;
+    temp=head1;
+    if(head1==NULL)
+    {
+        printf("Queue is empty\n");
+        return;
+    }
+    else
+    {
+        printf("Queue elements are : ");
+    }
+    while(temp!=NULL)
+    {
+        printf("%d\t",temp->data);
+        temp = temp->link;
+    }
+}
+void queue()
+{
+    int choice=0;
+    while(choice<=4)
+    {
+        printf("\nQUEUE IMPLEMENTATION\n1.ENQUEUE\n2.DEQUEUE\n3.DISPLAY\n4.EXIT\nENTER CHOICE : ");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1: enqueue();
+                    break;
+            case 2: dequeue();
+                    break;
+            case 3: display1();
+                    break;
+            case 4: return;
+        }
+    }
+   
+}
+void main()
+{
+    int c=0;
+    while(c<=3)
+    {
+        printf("\n1.STACK IMPLEMENTATION\n2.QUEUE IMPLEMENTATION\n3.EXIT\n");
+        printf("ENTER CHOICE : ");
+        scanf("%d",&c);
+        switch(c)
+        {
+            case 1: stack();
+                    break;
+            case 2: queue();
+                    break;
+            case 3: printf("\nExiting from program");
+                    exit(0);
+        }
+    }
+}
