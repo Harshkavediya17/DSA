@@ -1,0 +1,254 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node
+{
+    int data;
+    struct node *link;
+}NODE;
+NODE *head=NULL;
+NODE* createnode()
+{
+    int a;
+    NODE *ptr=  (NODE*)malloc(sizeof(NODE));
+    printf("Enter data : ");
+    scanf("%d",&a);
+    if(ptr==NULL)
+    {
+        printf("Memory not allocated");
+    }
+    else
+    {
+        ptr->data=a;
+    }
+    return ptr;
+}
+void insert_beg()
+{
+    NODE *temp,*ptr;
+    ptr = createnode();
+    temp = head;
+    if(head==NULL)
+    {
+        head = ptr;
+        ptr->link=head;
+        return;
+    }
+    else
+    {
+        while(temp->link!=head)
+        {
+            temp = temp->link;
+        }
+        temp->link=ptr;
+        ptr->link=head;
+        head=ptr;
+    }
+}
+void insert_end()
+{
+    NODE *ptr,*temp;
+    ptr = createnode();
+    if(head==NULL)
+    {
+        head=ptr;
+        ptr->link=head;
+        return;
+    }
+    temp=head;
+    while(temp->link!=head)
+    {
+        temp=temp->link;
+    }
+    temp->link=ptr;
+    ptr->link=head;
+}
+void insert_pos()
+{
+    NODE *ptr,*temp;
+    ptr = createnode();
+    int pos;
+    printf("Enter position : ");
+    scanf("%d",&pos);
+    if(pos==1)
+    {
+        ptr->link=head;
+        temp=head;
+        while(temp->link!=head)
+        {
+            temp=temp->link;
+        }
+        temp->link=ptr;
+        head=ptr;
+        return;
+    }
+    int i=1;
+    temp = head;
+    while(temp->link!=head && i<pos-1)
+    {
+        temp=temp->link;
+        i++;
+    }
+    if(temp->link==head && i!=pos-1)
+    {
+        printf("Entered position is greater than element ");
+        return;
+    }
+    if(temp->link==head)
+    {
+        temp->link=ptr;
+        ptr->link=head;
+        return;
+    }
+    ptr->link=temp->link;
+    temp->link=ptr;
+}
+void display()
+{
+    NODE *temp;
+    temp=head;
+    if(head==NULL)
+    {
+        printf("List is empty");
+        return;
+    }
+    else
+    {
+        printf("List elements are : \n");
+    }
+    while(temp->link!=head)
+    {
+        printf("%d\t",temp->data);
+        temp = temp->link;
+    }
+    printf("%d\t",temp->data);
+}
+void del_beg()
+{
+    NODE *temp;
+    if(head==NULL)
+    {
+        printf("\nList is empty");
+        return;
+    }
+    else if(head->link==head)
+    {
+        free(head);
+        head=NULL;
+        return;
+    }
+    temp=head;
+     while(temp->link!=head)
+        {
+            temp = temp->link;
+        }
+    temp->link=head->link;
+    free(head);
+    head=temp->link;
+   
+}
+void del_end()
+{
+    NODE *temp;
+    if(head==NULL)
+    {
+        printf("\nList is empty");
+        return;
+    }
+    else if(head->link==head)
+    {
+        free(head);
+        head=NULL;
+        return;
+    }
+    temp=head;
+     while(temp->link->link!=head)
+        {
+            temp = temp->link;
+        }
+        free(temp->link);
+        temp->link=head;
+}
+void del_ele()
+{
+    NODE *temp;
+    if(head==NULL)
+    {
+        printf("\nList is empty");
+        return;
+    }
+    int ele;
+    printf("\nENTER ELEMENT TO BE DELETED : ");
+    scanf("%d",&ele);
+    if(head->data==ele && head->link==head)
+    {
+        free(head);
+        head=NULL;
+        return;
+    }
+    else if(head->data==ele)
+    {
+        temp=head;
+        while(temp->link!=head)
+        {
+            temp=temp->link;
+        }
+        temp->link=head->link;
+        free(head);
+        head=temp->link;
+        return;
+    }
+    temp=head;
+    NODE *prev;
+    while(temp->data!=ele && temp->link!=head)
+    {
+        prev=temp;
+        temp=temp->link;
+    }
+    if(temp->data==ele && temp->link==head)
+    {
+        prev->link=head;
+        free(temp);
+        return;
+    }
+    else if(temp->data==ele && temp->link!=head)
+    {
+        prev->link=temp->link;
+        free(temp);
+        return;
+    }
+    else
+    {
+        printf("nEleement not found ");
+        return;
+    }
+   
+}
+void main()
+{
+    int choice=0;
+   
+    while(choice<=8)
+    {
+        printf("\nENTER CHOICE : \n1.INSERT AT BEG\n2.INSERT END\n3.INSERT AT POS\n4.DISPLAY\n5.DELETE AT BEG\n6.DELETE AT END\n7.DELETE SPECIFIC ELEMENT\n8.EXIT FROM PROGRAM\n");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1:insert_beg();
+                    break;
+            case 2:insert_end();
+                    break;
+            case 3:;insert_pos();
+                    break;
+            case 4:display();
+                    break;
+            case 5:del_beg();
+                    break;
+            case 6:del_end();
+                    break;
+            case 7:del_ele();
+                    break;
+            case 8:printf("\nExiting from the program");
+                    exit(0);
+        }
+    }
+}
